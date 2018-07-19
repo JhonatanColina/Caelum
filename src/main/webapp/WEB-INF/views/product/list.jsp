@@ -6,11 +6,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Listagem de Produtos</title>
+<link rel="stylesheet" href="<c:url	value='/resources/css/bootstrap.min.css'/>">
 </head>
 <body>
-	<h1>Listagem de Livros</h1>
+	<h1 style="text-align: center;">Listagem de Livros</h1>
 	<h1>${success}</h1>
-	<table border="1">
+	<table class="table table-bordered table-stripped" border="1">
 	<th>Titulo</th>
 	<th>Autor</th>
 	<th>Paginas</th>

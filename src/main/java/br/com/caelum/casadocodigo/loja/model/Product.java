@@ -1,6 +1,7 @@
 package br.com.caelum.casadocodigo.loja.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -9,6 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
@@ -17,14 +23,30 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	@NotEmpty
 	private String title;
 	@Lob
 	private String description; 
 	private String author; 
+	@Min(1)
+	@Max(500)
 	private Integer numPage;
+	@DateTimeFormat
+	private Date releaseDate;
+	
+	@DateTimeFormat
+	private Date updateDate;
 	
 	@ElementCollection
 	private List<Price> prices = new ArrayList<>();
+	
+	public Date getReleaseDate() {
+		return releaseDate;
+	}
+
+	public void setReleaseDate(Date releaseDate) {
+		this.releaseDate = releaseDate;
+	}
 	
 	public List<Price> getPrices() {
 		return prices;
@@ -77,7 +99,9 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", title=" + title + ", description=" + description + ", author=" + author
-				+ ", numPage=" + numPage + ", prices=" + prices + "]";
+				+ ", numPage=" + numPage + ", releaseDate=" + releaseDate + ", prices=" + prices + "]";
 	}
+
+	
 	
 }

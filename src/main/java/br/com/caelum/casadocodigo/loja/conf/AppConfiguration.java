@@ -1,7 +1,13 @@
 package br.com.caelum.casadocodigo.loja.conf;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.datetime.DateFormatter;
+import org.springframework.format.datetime.DateFormatterRegistrar;
+import org.springframework.format.support.DefaultFormattingConversionService;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -29,5 +35,30 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
+	}
+	
+	/*Interface para mensagens de validação*/
+	@Bean
+	public MessageSource messageSource()
+	{
+		ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
+		reloadableResourceBundleMessageSource.setBasename("WEB-INF/resources/messages");
+		reloadableResourceBundleMessageSource.setDefaultEncoding("UTF-8");
+		reloadableResourceBundleMessageSource.setCacheSeconds(1);
+		return reloadableResourceBundleMessageSource;
+		
+	}
+	
+	/*Interface para converter as datas para o padrao Spring*/
+	@Bean
+	public FormattingConversionService mvcConversionService()
+	{
+		DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
+		DateFormatter dateFormatter = new DateFormatter("yyyy-MM-dd");
+		DateFormatterRegistrar formatterRegistrar = new DateFormatterRegistrar();
+		formatterRegistrar.setFormatter(dateFormatter);
+		formatterRegistrar.registerFormatters(conversionService);
+		
+		return conversionService;
 	}
 }
