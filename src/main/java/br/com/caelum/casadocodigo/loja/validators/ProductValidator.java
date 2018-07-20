@@ -23,5 +23,4 @@ public class ProductValidator implements Validator
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "campo.obrigatorio");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "author", "campo.obrigatorio");
 	}
-
 }

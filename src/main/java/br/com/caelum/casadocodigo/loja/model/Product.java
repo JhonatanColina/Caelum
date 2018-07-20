@@ -1,5 +1,6 @@
 package br.com.caelum.casadocodigo.loja.model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +38,17 @@ public class Product {
 	@DateTimeFormat
 	private Date updateDate;
 	
+	private String summaryPath;
+
+	
+	public String getSummaryPath() {
+		return summaryPath;
+	}
+
+	public void setSummaryPath(String summaryPath) {
+		this.summaryPath = summaryPath;
+	}
+
 	@ElementCollection
 	private List<Price> prices = new ArrayList<>();
 	

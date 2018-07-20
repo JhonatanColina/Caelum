@@ -12,7 +12,7 @@
 </head>
 <body>
 	<c:url var="post_url"  value="/products" />
-	<form:form commandName="product" class="form-horizontal" method="POST" action="${post_url}" style="margin-left: 30%;margin-top: 20px">
+	<form:form enctype="multipart/form-data" commandName="product" class="form-horizontal" method="POST" action="${post_url}" style="margin-left: 30%;margin-top: 20px">
 		<div class="form-group">
 			<div class="col-sm-6 col-md-6 col-lg-6">
 				<label class="control-label" for="title">Título:</label>
@@ -43,10 +43,17 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-6 col-md-6 col-lg-6">
-			<label class="control-label" for="releaseDate">Data de Lançamento:</label>
-			<form:input path="releaseDate" class="form-control" type="date" name="releaseDate" id="releaseDate" />
-			<form:errors path="releaseDate"/>
+				<label class="control-label" for="releaseDate">Data de Lançamento:</label>
+				<form:input path="releaseDate" class="form-control" type="date" name="releaseDate" id="releaseDate" />
+				<form:errors path="releaseDate"/>
 			</div>
+		</div>
+		<div class="form-group">
+		<div class="col-sm-6 col-md-6 col-lg-6">
+			<label class="control-label" for="summary">Sumario:</label>
+			<input class="form-control" type="file" name="summary" id="summary" />
+			<form:errors path="summaryPath" />
+		</div>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-6 col-md-6 col-lg-6">

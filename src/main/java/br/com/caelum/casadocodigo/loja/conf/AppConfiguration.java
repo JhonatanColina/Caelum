@@ -8,19 +8,31 @@ import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.DateFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import br.com.caelum.casadocodigo.loja.controllers.ProductController;
+import br.com.caelum.casadocodigo.loja.model.ShoppingCart;
 import br.com.caelum.casadocodigo.loja.repository.ProductDAO;
+import br.com.caelum.casadocodigo.loja.utils.ManagerFile;
 import br.com.caelum.casadocodigo.loja.controllers.HomeController;
 
 @EnableWebMvc
 @ComponentScan(basePackageClasses = {HomeController.class,
-		ProductDAO.class})
+		ProductDAO.class,ManagerFile.class,ShoppingCart.class})
 public class AppConfiguration extends WebMvcConfigurerAdapter{
+	
+	
+	/*Permite o Spring receber multipart form*/
+	@Bean
+	public MultipartResolver multipartResolver()
+	{
+		return new StandardServletMultipartResolver();
+	}
 
 	/*Permite que resources sejam colocados antes da web-inf*/
 	@Override
