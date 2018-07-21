@@ -62,4 +62,11 @@ public class ShoppingItem implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "ShoppingItem [product=" + product + ", bookType=" + bookType + ", productId=" + productId + "]";
+	}
+	
+	
+
 }

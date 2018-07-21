@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -74,6 +75,7 @@ public class ProductController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	@Transactional
+	@Cacheable(value = "livrosRecentes") // coloca como cache de memoria
 	public ModelAndView list()
 	{
 		ModelAndView view = new ModelAndView("product/list");

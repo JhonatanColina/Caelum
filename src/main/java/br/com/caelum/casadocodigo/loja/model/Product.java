@@ -1,6 +1,8 @@
 package br.com.caelum.casadocodigo.loja.model;
 
 import java.io.File;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +21,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 
 @Entity
-public class Product {
+public class Product implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -114,6 +116,10 @@ public class Product {
 				+ ", numPage=" + numPage + ", releaseDate=" + releaseDate + ", prices=" + prices + "]";
 	}
 
+	public BigDecimal priceFor(BookType bookType)
+	{
+		return prices.stream().filter(price -> price.getBooktype().equals(bookType)).findFirst().get().getPrice();
+	}
 	
 	
 }
