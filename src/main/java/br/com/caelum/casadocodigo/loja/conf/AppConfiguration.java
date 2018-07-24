@@ -1,9 +1,14 @@
 package br.com.caelum.casadocodigo.loja.conf;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,18 +17,25 @@ import org.springframework.format.datetime.DateFormatter;
 import org.springframework.format.datetime.DateFormatterRegistrar;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import com.google.common.cache.CacheBuilder;
 
 import br.com.caelum.casadocodigo.loja.controllers.ProductController;
 import br.com.caelum.casadocodigo.loja.model.ShoppingCart;
 import br.com.caelum.casadocodigo.loja.repository.ProductDAO;
 import br.com.caelum.casadocodigo.loja.utils.ManagerFile;
+import br.com.caelum.casadocodigo.loja.viewresolver.JsonViewResolver;
+import br.com.caelum.casadocodigo.loja.viewresolver.XmlViewResolver;
 import br.com.caelum.casadocodigo.loja.Paymentfast.PaymentFastService;
 import br.com.caelum.casadocodigo.loja.controllers.HomeController;
 
@@ -41,8 +53,15 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
 	 * Gerenciador de Cache 
 	 */
 	@Bean
-	public	CacheManager cacheManager()	{
-					return	new	ConcurrentMapCacheManager();
+	public CacheManager cacheManager()	
+	{
+		//return new ConcurrentMapCacheManager(); utiliza o cacheable normal
+		GuavaCacheManager guavaCacheManager = new GuavaCacheManager();
+		CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder()
+				.expireAfterAccess(5, TimeUnit.MINUTES)
+				.maximumSize(100);
+		guavaCacheManager.setCacheBuilder(cacheBuilder);
+		return guavaCacheManager;
 	}
 	
 	/*Habilitar o Rest Template*/
@@ -75,6 +94,23 @@ public class AppConfiguration extends WebMvcConfigurerAdapter{
 		viewResolver.setExposedContextBeanNames("shoppingCart"); //libera o shopping cart para ser chamado da jsp
 		// As classes seguem o modelo da primeira letra minuscula (camel case) // mesmo pocedimento do binding
 		return viewResolver;
+	}
+	
+	/*
+	 * Metodo interface para receber varios tipos de header (html/json/xml...)
+	 * */
+	@Bean
+	public ViewResolver viewResolver(ContentNegotiationManager contentNegotiationManager)
+	{
+		List<ViewResolver> resolvers = new ArrayList<ViewResolver>();
+		resolvers.add(internalResourceViewResolver());
+		resolvers.add(new JsonViewResolver());
+		resolvers.add(new XmlViewResolver());
+		
+		ContentNegotiatingViewResolver contentNegotiatingViewResolver = new ContentNegotiatingViewResolver();
+		contentNegotiatingViewResolver.setContentNegotiationManager(contentNegotiationManager);
+		contentNegotiatingViewResolver.setViewResolvers(resolvers);
+		return contentNegotiatingViewResolver;
 	}
 	
 	/*Interface para mensagens de validação*/
