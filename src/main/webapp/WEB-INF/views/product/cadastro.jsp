@@ -11,8 +11,11 @@
 <link rel="stylesheet" href="<c:url	value='/resources/css/bootstrap.min.css'/>">
 </head>
 <body>
-	<c:url var="post_url"  value="/products" />
-	<form:form enctype="multipart/form-data" commandName="product" class="form-horizontal" method="POST" action="${post_url}" style="margin-left: 30%;margin-top: 20px">
+	<!-- servletRelativeAction para security csrInput -->
+	<form:form servletRelativeAction="/products" 
+	enctype="multipart/form-data" commandName="product" 
+	class="form-horizontal" method="POST" 
+	style="margin-left: 30%;margin-top: 20px">
 		<div class="form-group">
 			<div class="col-sm-6 col-md-6 col-lg-6">
 				<label class="control-label" for="title">Título:</label>

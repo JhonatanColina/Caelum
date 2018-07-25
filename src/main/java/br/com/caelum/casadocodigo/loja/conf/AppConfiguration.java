@@ -33,6 +33,7 @@ import com.google.common.cache.CacheBuilder;
 import br.com.caelum.casadocodigo.loja.controllers.ProductController;
 import br.com.caelum.casadocodigo.loja.model.ShoppingCart;
 import br.com.caelum.casadocodigo.loja.repository.ProductDAO;
+import br.com.caelum.casadocodigo.loja.service.UserService;
 import br.com.caelum.casadocodigo.loja.utils.ManagerFile;
 import br.com.caelum.casadocodigo.loja.viewresolver.JsonViewResolver;
 import br.com.caelum.casadocodigo.loja.viewresolver.XmlViewResolver;
@@ -44,7 +45,7 @@ import br.com.caelum.casadocodigo.loja.controllers.HomeController;
 {
 		HomeController.class,ProductDAO.class,
 		ManagerFile.class,ShoppingCart.class,
-		PaymentFastService.class
+		PaymentFastService.class, UserService.class
 })
 @EnableCaching
 public class AppConfiguration extends WebMvcConfigurerAdapter{

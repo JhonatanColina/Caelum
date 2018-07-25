@@ -9,16 +9,17 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 public class ServletDoSpring extends AbstractAnnotationConfigDispatcherServletInitializer {
 
+	/*Utilizado para o que sera usado antes da config classes rolar
+	 * Primeiras entradas (Spring security) */
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Class[]{SpringSecurityConfig.class,AppConfiguration.class, JPAConfig.class};
 	}
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
 		// TODO Auto-generated method stub
-		return new Class[]{AppConfiguration.class, JPAConfig.class};
+		return new Class[]{};
 	}
 
 	@Override
