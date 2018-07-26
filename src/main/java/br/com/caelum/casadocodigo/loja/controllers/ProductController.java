@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.caelum.casadocodigo.loja.model.BookType;
 import br.com.caelum.casadocodigo.loja.model.Product;
+import br.com.caelum.casadocodigo.loja.model.User;
 import br.com.caelum.casadocodigo.loja.repository.ProductDAO;
 import br.com.caelum.casadocodigo.loja.utils.ManagerFile;
 import br.com.caelum.casadocodigo.loja.validators.ProductValidator;
@@ -42,7 +44,7 @@ public class ProductController {
 		webDataBinder.addValidators(new ProductValidator());
 	}
 	
-	@RequestMapping("form")
+	@RequestMapping("/form")
 	public ModelAndView form(Product product)
 	{
 		ModelAndView view = new ModelAndView("product/cadastro");
@@ -78,7 +80,7 @@ public class ProductController {
 	@RequestMapping(method = RequestMethod.GET)
 	@Transactional
 	@Cacheable(value = "livrosRecentes") // coloca como cache de memoria
-	public ModelAndView list()
+	public ModelAndView list(@AuthenticationPrincipal User user)
 	{
 		ModelAndView view = new ModelAndView("product/list");
 		view.addObject("books", productDAO.listAll());

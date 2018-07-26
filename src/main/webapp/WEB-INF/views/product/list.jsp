@@ -1,16 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Listagem de Produtos</title>
-<link rel="stylesheet" href="<c:url	value='/resources/css/bootstrap.min.css'/>">
-</head>
-<body>
-	<h1 style="text-align: center;">Listagem de Livros</h1>
+<%@taglib	uri="http://www.springframework.org/security/tags"	prefix="sec"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="cdc" tagdir="/WEB-INF/tags" %> <!--  tag para invoke do jsp -->
+
+<cdc:page title="Listagem de Produtos">
+<h1 style="text-align: center;">Listagem de Livros</h1>
 	<h1>${success}</h1>
+	
+	<sec:authorize access="isAuthenticated()">
+		<sec:authentication property="principal" var="user"/>
+		<div>
+			Olá	${user.username}
+		</div>
+		
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+		<a href="${spring:mvcUrl('PC#form').build()}">Cadastrar novo Livro</a>
+		</sec:authorize>
+		<br>
+		<c:url var="urlToLogout" value="/logout"/>
+		<a href="${urlToLogout}">Sair</a>
+	</sec:authorize>	
+	
 	<table class="table table-bordered table-stripped" border="1">
 	<th>Titulo</th>
 	<th>Autor</th>
@@ -30,5 +42,4 @@
 	</tr>
 	</c:forEach>
 	</table>
-</body>
-</html>
+</cdc:page>

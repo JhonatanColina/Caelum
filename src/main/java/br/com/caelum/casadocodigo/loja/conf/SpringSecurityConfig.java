@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import br.com.caelum.casadocodigo.loja.service.UserService;
 /*
@@ -28,7 +30,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
 		auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 	
-	/*libera/bloqueia as views, importante ter ROLE_ no banco como prefixo da Role*/
+	/*libera/bloqueia aAs views, importante ter ROLE_ no banco como prefixo da Role*/
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
@@ -37,7 +39,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
 		.antMatchers("/products/**").permitAll()
 		.antMatchers("/shopping/**").permitAll()
 		.anyRequest().authenticated()
-		.and().formLogin();
+		.and()
+		.formLogin().loginPage("/login")
+		.defaultSuccessUrl("/products").permitAll()
+		.and()
+		.logout()
+		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+		.logoutSuccessUrl("/products")
+		.permitAll()
+		.and() 
+		.exceptionHandling().accessDeniedPage("/WEB-INF/views/403.jsp");
 	}
 	/*libera os resources (css,js)*/
 	@Override
