@@ -1,17 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Cadastro de Livros</title>
+<%@taglib	uri="http://www.springframework.org/security/tags"	prefix="sec"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="cdc" tagdir="/WEB-INF/tags" %> <!--  tag para invoke do jsp -->
+<cdc:page title="Cadastro de Produtos">
 <link rel="stylesheet" href="<c:url	value='/resources/css/bootstrap.min.css'/>">
-</head>
-<body>
 	<!-- servletRelativeAction para security csrInput -->
 	<form:form servletRelativeAction="/products" 
 	enctype="multipart/form-data" commandName="product" 
@@ -19,7 +12,7 @@
 	style="margin-left: 30%;margin-top: 20px">
 		<div class="form-group">
 			<div class="col-sm-6 col-md-6 col-lg-6">
-				<label class="control-label" for="title">TÃ­tulo:</label>
+				<label class="control-label" for="title">Título:</label>
 				<form:input path="title" class="form-control"  type="text" name="title" id="title" />
 				<form:errors path="title"/>
 			</div>
@@ -47,7 +40,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-6 col-md-6 col-lg-6">
-				<label class="control-label" for="releaseDate">Data de LanÃ§amento:</label>
+				<label class="control-label" for="releaseDate">Data de Lançamento:</label>
 				<form:input path="releaseDate" class="form-control" type="date" name="releaseDate" id="releaseDate" />
 				<form:errors path="releaseDate"/>
 			</div>
@@ -77,5 +70,4 @@
 			</div>
 		</div>
 	</form:form>
-</body>
-</html>
+</cdc:page>

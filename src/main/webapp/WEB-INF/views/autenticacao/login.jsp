@@ -1,18 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Login Page</title>
+	<%@taglib	uri="http://www.springframework.org/security/tags"	prefix="sec"%>
+	<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+	<%@ taglib prefix="cdc" tagdir="/WEB-INF/tags" %> <!--  tag para invoke do jsp -->
+<cdc:page title="Login Page">
 <link rel="stylesheet" href="<c:url	value='/resources/css/bootstrap.min.css'/>">
-</head>
-<body>
 <h1>Bem vindo a casa do codigo</h1> 
-
 <form:form class="form-horizontal col-sm-5 col-md-5 col-lg-5" servletRelativeAction="/login" method="post">
 	<c:if test="${param.error != null}">
 		<p><spring:message code="message.badCredentials"></spring:message></p>
@@ -31,5 +26,4 @@
 		<input class="btn btn-primary"" type="submit" value="Login"/>
 	</div>
 </form:form>
-</body>
-</html>
+</cdc:page>

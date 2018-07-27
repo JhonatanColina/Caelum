@@ -6,6 +6,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -26,10 +27,10 @@ public class JPAConfig
 	
 	
 	@Bean
-	public LocalContainerEntityManagerFactoryBean LocalContainerEntityManagerFactoryBean()
+	public LocalContainerEntityManagerFactoryBean LocalContainerEntityManagerFactoryBean(DataSource dataSource)
 	{
 		LocalContainerEntityManagerFactoryBean managerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-		managerFactoryBean.setDataSource(dataSource());
+		managerFactoryBean.setDataSource(dataSource);
 		managerFactoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 		managerFactoryBean.setJpaProperties(myJpaConfig());
 		managerFactoryBean.setPackagesToScan(new String[]{"br.com.caelum.casadocodigo.loja.model"});
@@ -47,6 +48,7 @@ public class JPAConfig
 	}
 	
 	@Bean
+	@Profile("prod")
 	public DataSource dataSource()
 	{
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();

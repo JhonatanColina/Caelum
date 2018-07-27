@@ -2,12 +2,24 @@ package br.com.caelum.casadocodigo.loja.conf;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 public class ServletDoSpring extends AbstractAnnotationConfigDispatcherServletInitializer {
+	/*
+	 * Seta o profile de produção ativo (para nao pegar o dataSource de teste da Profile(teste))
+	 * **/
+	@Override
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		super.onStartup(servletContext);
+		servletContext.addListener(RequestContextListener.class);
+		servletContext.setInitParameter("spring.profiles.active",	"prod");
+	}
 
 	/*Utilizado para o que sera usado antes da config classes rolar
 	 * Primeiras entradas (Spring security) */

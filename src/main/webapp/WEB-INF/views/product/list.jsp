@@ -8,21 +8,6 @@
 <cdc:page title="Listagem de Produtos">
 <h1 style="text-align: center;">Listagem de Livros</h1>
 	<h1>${success}</h1>
-	
-	<sec:authorize access="isAuthenticated()">
-		<sec:authentication property="principal" var="user"/>
-		<div>
-			Olá	${user.username}
-		</div>
-		
-		<sec:authorize access="hasRole('ROLE_ADMIN')">
-		<a href="${spring:mvcUrl('PC#form').build()}">Cadastrar novo Livro</a>
-		</sec:authorize>
-		<br>
-		<c:url var="urlToLogout" value="/logout"/>
-		<a href="${urlToLogout}">Sair</a>
-	</sec:authorize>	
-	
 	<table class="table table-bordered table-stripped" border="1">
 	<th>Titulo</th>
 	<th>Autor</th>
